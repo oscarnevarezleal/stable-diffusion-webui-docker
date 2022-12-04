@@ -1,0 +1,19 @@
+FROM nvidia/cuda:11.6.0-runtime-ubuntu20.04
+ENV DEBIAN_FRONTEND=noninteractive
+ENV COMMANDLINE_ARGS="--skip-torch-cuda-test"
+RUN apt-get update && apt-get install -y wget git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 libgl1-mesa-glx
+COPY --from=sd-deps-base /venv /venv
+RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
+WORKDIR stable-diffusion-webui
+RUN /bin/bash -c "source /venv/bin/activate \
+    && python launch.py --precision full --no-half --exit || true"
+# Copy /venv from the previous stage:
+ADD https://drive.yerf.org/wl/?id=EBfTrmcCCUAGaQBXVIj5lJmEhjoP1tgl&mode=grid&download=1 models/Stable-diffusion/sd-v1-4.ckpt
+# When image is run, run the code with the environment
+# activated:
+RUN echo "#!/bin/bash\n" \
+    "source /venv/bin/activate && python webui.py --listen \$@ \n" > ./entrypoint.sh
+RUN chmod +x entrypoint.sh
+RUN cat entrypoint.sh
+SHELL ["/bin/bash", "-c"]
+ENTRYPOINT ["./entrypoint.sh" ]
