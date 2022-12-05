@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+FROM nvidia/cuda:11.6.0-devel-ubuntu20.04
+ENV DEBIAN_FRONTEND=noninteractive
 ENV CONDA_ENV_NAME=automatic1111
 USER root
 RUN apt update && \
