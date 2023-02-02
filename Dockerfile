@@ -49,7 +49,8 @@ WORKDIR stable-diffusion-webui
 RUN /bin/bash -c "source /venv/bin/activate \
     && python launch.py --precision full --no-half --skip-torch-cuda-test --exit || true"
 
-ADD "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.ckpt" models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
+ADD https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.ckpt models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
+ADD https://huggingface.co/ckpt/anything-v3-vae-swapped/resolve/main/anything-v3-vae-swapped.ckpt models/Stable-diffusion/anything-v3-vae-swapped.ckpt
 
 # When image is run, run the code with the environment
 # activated:
