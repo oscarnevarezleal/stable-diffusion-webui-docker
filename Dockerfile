@@ -47,7 +47,7 @@ COPY --from=build /venv /venv
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
 WORKDIR stable-diffusion-webui
 RUN /bin/bash -c "source /venv/bin/activate \
-    && python launch.py --precision full --no-half --exit || true"
+    && python launch.py --precision full --no-half --skip-torch-cuda-test --exit || true"
 
 ADD "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.ckpt" models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
 
