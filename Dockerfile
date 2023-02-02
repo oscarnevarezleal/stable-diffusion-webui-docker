@@ -8,7 +8,7 @@ RUN apt update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     echo 'PATH=/usr/local/bin:$PATH' >> ~/.bashrc
-    
+
 # Install miniconda
 ENV CONDA_DIR /opt/conda
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
@@ -48,8 +48,9 @@ RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
 WORKDIR stable-diffusion-webui
 RUN /bin/bash -c "source /venv/bin/activate \
     && python launch.py --precision full --no-half --exit || true"
-# Copy /venv from the previous stage:
-ADD https://drive.yerf.org/wl/?id=EBfTrmcCCUAGaQBXVIj5lJmEhjoP1tgl&mode=grid&download=1 models/Stable-diffusion/sd-v1-4.ckpt
+
+ADD "https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned-emaonly.ckpt" models/Stable-diffusion/v1-5-pruned-emaonly.ckpt
+
 # When image is run, run the code with the environment
 # activated:
 RUN echo "#!/bin/bash\n" \
